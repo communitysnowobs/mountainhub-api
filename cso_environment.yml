@@ -1,4 +1,4 @@
-name: cso_mtnhub
+name: cso_mtnhubsnow
 channels:
   - conda-forge
   - defaults
