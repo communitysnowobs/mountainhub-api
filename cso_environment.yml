@@ -1,0 +1,14 @@
+name: cso_mtnhubsnow
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.7
+  - ipykernel
+  - requests
+  - matplotlib
+  - geopandas
+  - descartes
+  - folium
+  - pip:
+    - git+https://github.com/communitysnowobs/mountainhub-api.git

@@ -1,5 +1,4 @@
 name: mtnhubsnow
 dependencies:
-  - numpy
   - pandas
   - requests

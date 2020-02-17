@@ -56,10 +56,11 @@ def timestampms_to_datetime(timestamp):
 
 
 def parse_snow(record):
-    """Parses record returned by MountainHub API into standard format.
+    """Parses results record returned by MountainHub API.
+     Returns standard OrderedDict dictionary.
 
     Keyword arguments:
-    record -- Segment of JSON returned by MountainHub API
+    record -- results record from JSON returned by MountainHub API
     """
     obs = record['observation']
     actor = record['actor']
@@ -92,13 +93,20 @@ def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
     """Retrieves snow data from MountainHub API.
 
     Keyword arguments:
-    publisher --
-    obs_type --
-    limit -- Maximum number of records to return (default 100)
-    start -- Start date to return results from
-    end -- End date to return results from
-    box -- Bounding box to restrict results,
-    filter -- Flag indicating whether entries with no snow depth data should be filtered out
+    publisher -- 'all', 'pro' (professional submitters), etc
+    obs_type -- Filters to only specific observation types.
+        Can be an individual value or a comma-separated string of multiple values.
+        Only snow depth values are processed, but accepted obs_type values are:
+        snowpack_test, snow_conditions, weather, camera, dangerous_wildlife,
+        other_hazard, point_of_interest, water_hazard, trail_conditions,
+        trip_report, incident, avalanche
+    limit -- Maximum number of records to return (default 1000)
+    start -- Start datetime to return results from, as datetime object
+    end -- End datetime to return results from, as datetime object
+    box -- Bounding box to restrict results, specified as dictionary with items
+        latmax, lonmax, latmin, lonmin
+    filter -- Flag indicating whether entries with no snow depth data
+        should be filtered out.
     """
     # Build API request
     params = _remove_empty_params({
@@ -123,7 +131,8 @@ def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
     records = data['results']
     parsed = [parse_snow(record) for record in records]
 
-    # Convert to dataframe and drop invalid results if necessary
+    # Convert to Pandas dataframe and optionally drop (filter out) results
+    # with no snow depth data
     df = pd.DataFrame.from_records(parsed)
     if filter:
         df = df.dropna(subset=['snow_depth'])
