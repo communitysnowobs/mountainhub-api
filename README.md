@@ -1,16 +1,36 @@
-# mountainhub-api
-MountainHub API access, Python package and API documentation
+# Python access to snow depth data from MountainHub API
 
-Will start with code currently present in other repos: the [validation repo](https://github.com/communitysnowobs/validation) also contains Python code to read from the MountainHub API: https://github.com/communitysnowobs/validation/blob/master/validation/MountainHub.py. That code has basically the same functionality as the one at `cso-legacy-api`, https://github.com/communitysnowobs/cso-legacy-api/blob/master/src/resources/obs/MountainHub.py. But they're not identical. Ultimately, we should consolidate these two and leave a single, well documented, master code (package?) to access the MountainHub API. Both of these code bases were last updated in mid 2018.
+Simplified and standardized access to snow depth data from the [MountainHub](https://about.mountainhub.com/) API, 
+[https://api.mountainhub.com/timeline](https://api.mountainhub.com/timeline).
 
-Will also add information and links about the MountainHub data and API proper
+Adapted from [MountainHub.py module](https://github.com/communitysnowobs/validation/blob/master/validation/MountainHub.py) 
+in the [validation](https://github.com/communitysnowobs/validation) GitHub repository from the 
+[Community Snow Observations (CSO)](http://communitysnowobs.org/) Citizen Science project.
 
+See [Jupyter notebook example]() for usage, and [api.mountainhumb.com_timeline.sample.json](api.mountainhumb.com_timeline.sample.json) 
+for an example of the API JSON response.
 
-## Installation for development
+## Installation 
+
+If the dependencies installed (`pandas` and `requests`), `mtnhubsnow` can be installed with `pip install`:
 ```bash
+pip install git+https://github.com/communitysnowobs/mountainhub-api.git
+``` 
+
+Otherwise, the `cso_environment.yml` conda environment file can be used. It will additionally install 
+`matplotlib`, `geopandas` and `folium`.
+```bash
+wget https://raw.githubusercontent.com/communitysnowobs/mountainhub-api/master/cso_environment.yml
+conda env create -f cso_environment.yml
+```
+
+### For development
+```bash
+git clone https://github.com/communitysnowobs/mountainhub-api.git
+cd mountainhub-api
 conda env create -f environment.yml
 source activate mtnhubsnow
 pip install -e .
-# To be able to switch conda envs in jupyterlab, install ipykernel
+# To be able to select conda environments in JupyterLab, install ipykernel
 conda install ipykernel
 ```

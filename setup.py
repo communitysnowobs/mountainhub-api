@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import (division,
-                        absolute_import,
-                        print_function,
-                        unicode_literals)
-
 import os
 from codecs import open
 
@@ -23,14 +18,14 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='mtnhubsnow',
     version='0.1',
-    description='',
+    description='Simplified and standardized access to MountainHub API snow depth data',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='',
+    url='https://github.com/communitysnowobs/mountainhub-api',
     author='',
     author_email='',
-    maintainer='',
-    maintainer_email='',
+    maintainer='Emilio Mayorga',
+    maintainer_email='emiliom@uw.edu',
     python_requires='>=3',
     license='BSD',
     classifiers=[
@@ -39,7 +34,7 @@ setup(
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Scientific/Engineering'
     ],
