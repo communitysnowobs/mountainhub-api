@@ -113,7 +113,7 @@ def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
         'publisher': publisher,
         'obs_type': obs_type,
         'limit': limit,
-        'after': datetime_to_timestampms(start),
+        'since': datetime_to_timestampms(start),
         'before': datetime_to_timestampms(end),
         **_make_bbox(bbox)
     })
