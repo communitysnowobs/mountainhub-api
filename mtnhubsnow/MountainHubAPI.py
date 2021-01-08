@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, timezone
 import time
 
 import requests
@@ -41,18 +41,19 @@ def datetime_to_timestampms(dt):
     """
     if dt is None:
         return dt
+    # TODO: Verify that this conversion is correct (assumes UTC, not local time)
     return int(time.mktime(dt.timetuple())) * 1000
 
 
 def timestampms_to_datetime(timestamp):
-    """Converts unix timestamp in milliseconds to datetime object.
+    """Converts unix timestamp in milliseconds to timezone-aware UTC datetime object.
 
     Keyword arguments:
     timestamp -- Timestamp to convert
     """
     if timestamp is None:
         return timestamp
-    return datetime.fromtimestamp(timestamp / 1000)
+    return datetime.fromtimestamp(timestamp / 1000, tz=timezone.utc)
 
 
 def parse_snow(record):
@@ -74,10 +75,11 @@ def parse_snow(record):
     description = (obs['description']
                    if ('description' in obs and obs['description'] is not None)
                    else '')
+    
     # Remap record structure
     return OrderedDict(
         id=obs['_id'],
-        # TODO: Confirm that reported_at is the right timestamp, and that it's in UTC
+        # reported_at is an epoch timestamp, in UTC
         datetime_utc=timestampms_to_datetime(int(obs['reported_at'])),
         latitude=obs['location'][1],
         longitude=obs['location'][0],
@@ -90,6 +92,7 @@ def parse_snow(record):
 
 def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
               limit=1000, start=None, end=None, bbox=None, filter=True):
+    # TODO: Confirm that start and end should be in UTC
     """Retrieves snow data from MountainHub API.
 
     Keyword arguments:
