@@ -13,6 +13,33 @@ for usage documentation and examples,
 and [api.mountainhumb.com_timeline.sample.json](api.mountainhumb.com_timeline.sample.json) 
 for an example of the API JSON response.
 
+## Usage
+
+Use the `snow_data` function call:
+
+```python
+mtnhubsnow.snow_data(
+    publisher='all',
+    obs_type='snow_conditions,snowpack_test',
+    limit=1000,
+    start=None,
+    end=None,
+    bbox=None,
+    filter=True,
+)
+```
+
+*Keyword arguments:*
+- publisher -- `all`, `pro` (professional submitters), etc
+- obs_type -- Filters to only specific observation types. Can be an individual value or a comma-separated string of multiple values. Only snow depth values are processed, but accepted obs_type values are: `snowpack_test`, `snow_conditions`, `weather`, `camera`, `dangerous_wildlife`, `other_hazard`, `point_of_interest`, `water_hazard`, `trail_conditions`, `trip_report`, `incident`, `avalanche`
+- limit -- Maximum number of records to return (default 1000)
+- start -- Start datetime to return results from, as datetime object
+- end -- End datetime to return results from, as datetime object
+- box -- Bounding box to restrict results, specified as dictionary with items `latmax`, `lonmax`, `latmin`, `lonmin`
+- filter -- Flag indicating whether entries with no snow depth data should be filtered out.
+
+*Returns* a Pandas dataframe with observation timestamp in UTC, latitude and longitude coordinates, and snow depth in meters.
+
 ## Installation 
 
 If the `pandas` and `requests` dependencies are installed, `mtnhubsnow` can be installed via `pip install`:
