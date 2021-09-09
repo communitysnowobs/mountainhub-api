@@ -35,7 +35,7 @@ mtnhubsnow.snow_data(
 - limit -- Maximum number of records to return (default 1000)
 - start -- Start datetime to return results from, as datetime object
 - end -- End datetime to return results from, as datetime object
-- box -- Bounding box to restrict results, specified as dictionary with items `latmax`, `lonmax`, `latmin`, `lonmin`
+- bbox -- Bounding box to restrict results, specified as dictionary with items `latmax`, `lonmax`, `latmin`, `lonmin`
 - filter -- Flag indicating whether entries with no snow depth data should be filtered out.
 
 *Returns* a Pandas dataframe with observation timestamp in UTC, latitude and longitude coordinates, and snow depth in meters.
