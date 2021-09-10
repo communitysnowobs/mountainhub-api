@@ -42,8 +42,8 @@ mtnhubsnow.snow_data(
 A Pandas dataframe with the following columns:
 - `id` -- unique identifier for each observation
 - `datetime_utc` -- timestamp in UTC
-- `latitude`
-- `longitude`
+- `latitude` -- latitude in decimal degrees
+- `longitude` -- longitude in decimal degrees
 - `author_name` -- name of the person who collected the data
 - `obs_type` -- (see above)
 - `snow_depth` -- measured snow depth in centimeters
