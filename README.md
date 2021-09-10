@@ -38,7 +38,16 @@ mtnhubsnow.snow_data(
 - box -- Bounding box to restrict results, specified as dictionary with items `latmax`, `lonmax`, `latmin`, `lonmin`
 - filter -- Flag indicating whether entries with no snow depth data should be filtered out.
 
-*Returns* a Pandas dataframe with observation timestamp in UTC, latitude and longitude coordinates, and snow depth in meters.
+*Returns:* 
+A Pandas dataframe with the following columns:
+- `id` -- unique identifier for each observation
+- `datetime_utc` -- timestamp in UTC
+- `latitude`
+- `longitude`
+- `author_name` -- name of the person who collected the data
+- `obs_type` -- (see above)
+- `snow_depth` -- measured snow depth in centimeters
+- `description`
 
 ## Installation 
 
