@@ -93,7 +93,7 @@ def parse_snow(record):
 def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
               limit=1000, start=None, end=None, bbox=None, filter=True):
     # TODO: Confirm that start and end should be in UTC
-    """Retrieves snow data from MountainHub API.
+    """Retrieves snow depth data (cm) from MountainHub API.
 
     Keyword arguments:
     publisher -- 'all', 'pro' (professional submitters), etc
