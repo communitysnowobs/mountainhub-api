@@ -29,7 +29,7 @@ mtnhubsnow.snow_data(
 )
 ```
 
-*Keyword arguments:*
+*Arguments:*
 - publisher -- `all`, `pro` (professional submitters), etc
 - obs_type -- Filters to only specific observation types. Can be an individual value or a comma-separated string of multiple values. Only snow depth values are processed, but accepted obs_type values are: `snowpack_test`, `snow_conditions`, `weather`, `camera`, `dangerous_wildlife`, `other_hazard`, `point_of_interest`, `water_hazard`, `trail_conditions`, `trip_report`, `incident`, `avalanche`
 - limit -- Maximum number of records to return (default 1000)
