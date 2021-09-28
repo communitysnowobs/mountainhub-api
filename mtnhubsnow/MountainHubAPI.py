@@ -145,4 +145,9 @@ def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
     if filter:
         df = df.dropna(subset=['snow_depth'])
 
+    # Filtered dataframe has no numeric snow_depth values
+    if len(df) == 0:
+        print("No snow_depth results found.")
+        return None
+
     return df
