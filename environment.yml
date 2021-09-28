@@ -1,4 +1,7 @@
 name: mtnhubsnow
+channels:
+  - conda-forge
+  - defaults
 dependencies:
   - pandas
   - requests

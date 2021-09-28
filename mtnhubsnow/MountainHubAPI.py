@@ -92,26 +92,33 @@ def parse_snow(record):
 
 def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
               limit=1000, start=None, end=None, bbox=None, filter=True):
-    # TODO: Confirm that start and end should be in UTC
     """Retrieves snow depth data (cm) from MountainHub API.
 
-    Keyword arguments:
-    publisher -- 'all', 'pro' (professional submitters), etc
-    obs_type -- Filters to only specific observation types.
-        Can be an individual value or a comma-separated string of multiple values.
-        Only snow depth values are processed, but accepted obs_type values are:
-        snowpack_test, snow_conditions, weather, camera, dangerous_wildlife,
-        other_hazard, point_of_interest, water_hazard, trail_conditions,
-        trip_report, incident, avalanche
-    limit -- Maximum number of records to return (default 1000)
-    start -- Start datetime to return results from, as datetime object
-    end -- End datetime to return results from, as datetime object
-    box -- Bounding box to restrict results, specified as dictionary with items
-        latmax, lonmax, latmin, lonmin
-    filter -- Flag indicating whether entries with no snow depth data
-        should be filtered out.
+    Arguments:
+        publisher -- 'all', 'pro' (professional submitters), etc
+        obs_type -- Filters to only specific observation types.
+            Can be an individual value or a comma-separated string of multiple values.
+            Only snow depth values are processed, but accepted obs_type values are:
+            snowpack_test, snow_conditions, weather, camera, dangerous_wildlife,
+            other_hazard, point_of_interest, water_hazard, trail_conditions,
+            trip_report, incident, avalanche
+        limit -- Maximum number of records to return (default 1000)
+        start -- Start datetime to return results from, as datetime object
+        end -- End datetime to return results from, as datetime object
+        box -- Bounding box to restrict results, specified as dictionary with items
+            latmax, lonmax, latmin, lonmin
+        filter -- Flag indicating whether entries with no snow depth data
+            should be filtered out.
+
+    Returns:
+        df -- Pandas DataFrame with these columns: observation id,
+            datetime_utc, latitude, longitude, author_name,
+            obs_type, snow_depth (in cm), description
     """
-    # Build API request
+    # TODO: Confirm that start and end should be in UTC
+
+    # Build API request, then make request
+    header = {'Accept-version': '1'}
     params = _remove_empty_params({
         'publisher': publisher,
         'obs_type': obs_type,
@@ -121,14 +128,12 @@ def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
         **_make_bbox(bbox)
     })
 
-    header = {'Accept-version': '1'}
-
-    # Make request
     response = requests.get(_MHAPI_URL, params=params, headers=header)
     data = response.json()
 
-    if 'results' not in data:
-        raise ValueError(data)
+    if 'results' not in data or len(data['results']) == 0:
+        print("No results found.")
+        return None
 
     # Parse request
     records = data['results']
@@ -139,4 +144,10 @@ def snow_data(publisher='all', obs_type='snow_conditions,snowpack_test',
     df = pd.DataFrame.from_records(parsed)
     if filter:
         df = df.dropna(subset=['snow_depth'])
+
+    # Filtered dataframe has no numeric snow_depth values
+    if len(df) == 0:
+        print("No snow_depth results found.")
+        return None
+
     return df
